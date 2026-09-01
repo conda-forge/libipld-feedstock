@@ -1,0 +1,54 @@
+schema_version: 1
+
+context:
+  name: libipld
+  version: "3.4.1"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/libipld-${{ version }}.tar.gz
+  sha256: 5d34fc8f90c954320fca7fef120e5fe9af58fb674ff7235f27870364de6c106f
+
+build:
+  number: 1
+  script:
+    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+    - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
+
+requirements:
+  build:
+    - ${{ compiler('rust') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - cargo-bundle-licenses
+    - if: build_platform != target_platform
+      then: python
+    - if: build_platform != target_platform
+      then: cross-python_${{ target_platform }}
+    - if: build_platform != target_platform
+      then: maturin >=1.2,<2.0
+  host:
+    - python
+    - maturin >=1.2,<2.0
+    - pip
+  run:
+    - python
+
+tests:
+  - python:
+      imports:
+        - libipld
+      pip_check: true
+
+about:
+  summary: Python binding to the Rust IPLD library
+  license: MIT
+  license_file: LICENSE
+  homepage: https://pypi.org/project/libipld/
+
+extra:
+  recipe-maintainers:
+    - akrherz
