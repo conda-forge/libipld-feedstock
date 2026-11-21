@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: libipld
-  version: "3.5.0"
+  version: "4.0.0"
 
 package:
   name: ${{ name|lower }}
@@ -10,7 +10,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/libipld-${{ version }}.tar.gz
-  sha256: 47e43e738fcf3cc9b2e57eda20af52f8fdb04425b1fa69abbd763866ece415db
+  sha256: d42095107483a7c030f0939b934420011bcacd2e5cd0044b209fdfb64c820a8d
 
 build:
   number: 0
